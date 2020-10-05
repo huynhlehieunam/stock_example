@@ -1,0 +1,32 @@
+<?php /** @var \Magenest\StockExample\Block\StockInformation $block */
+    $productId = 620;
+    $stockItem = $block->getStockItemRepository($productId);
+?>
+
+<?php echo "back order: ".$stockItem->getBackorders()?>
+<?php echo "qty: ".$stockItem->getQty() ?>
+<?php echo "in stock status: ".$stockItem->getIsInStock() ?>
+<?php echo "max sale qty: ".$stockItem->getMaxSaleQty() ?>
+
+
+
+<?php
+	$sku = "883985891715";
+    $product = $block->getProductRepository()->get($sku);
+    if ($product) :
+?>
+    <?php echo "is saleable " . $product->isSalable() ?>
+<?php
+    endif;
+?>
+
+
+<?php
+    /** @var \Magento\Catalog\Model\ResourceModel\Product\Collection $productCollection */
+    $productCollection = $block->getProductCollectionFactory()->create();
+    $data =  $productCollection
+	    ->addAttributeToFilter("is_saleable", 1)
+	    ->setPageSize(5)
+	    ->toArray();
+
+?>
